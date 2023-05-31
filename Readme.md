@@ -1,0 +1,1 @@
+# 🐳 Docker + PHP 8.2 + MySQL + Nginx + Symfony 6.2 Boilerplate @LatteAndCode

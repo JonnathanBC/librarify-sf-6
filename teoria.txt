@@ -1,0 +1,40 @@
+!!! Symfony !!!.- symfony es una framework de php, que nos permite crear tanto apps completas como servir APIs. Una de las caracteristicas fundamentales de este framework es la ayuda Symfony flex que es un bundle, que lo que hace es ejecutar recetas de flex, que esto siginifica que cuando instalamos un bundle, al ejecutar las recetas de flex este instala y configura todos los paquetes que sean necesarios para su funcionamiento sin necesidad de nosotros crear a mano ciertas config de cada bundle.
+
+También nos permite la inyección de dependencias, crear Services, ahora con los nuevos lanzamientos de php 8 con los atriutos, nos permite crear rutas enlazadas en nuestros controladores, sin la necesidad de archivos yaml o comments que luego se procesaban con una librería para definir nuestras rutas. 
+Symfony tiene soporte nativo para atributos las novedades de php 8.
+
+! CONTROLLERS !.- Son clases que hace tiempo atrás son Servicios ya, que nos van a permitir definir rutas y asociar una serie de acciones, es decir, código que ejecutaremos nosotros cada vez que el usuario interactua con nuestra app mediante una llamada HTTP. ejecutaremos.
+Los controladores también pueden recibir servicios que los podemos inyectar directamente através de los métodos.
+
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+class ArticlesController extends AbstractController
+{
+    #[Route(path: '/articles', name: 'articles', methods: ['GET'])] => accesible solo a peticion GET
+    public function list(Request, $request): Response
+    {
+        $name = $request->query->get('name', 'Jonnathan')
+        return new Response('Welcome to Latte and Code ');
+        // Podemos devolver también un JsonResponse y tambein el statusCode con el que queremos que responda esa petición de la sig manera
+        return new JsonResponse(['name' => 'Jonnathan'], Response::HTTP_CREATED)
+    }
+}
+
+*namespace.- esto es muy importante colocar en cada archivo de clase, Controller etc,porque es fundamental, porque si no el autoload de php no va a funcionar.
+
+*AbstractController.- No es 100 * 100 necesario extender nuestras clases de aquí, pero cabe reclacar que si lo usamos este nos permite a nosotros poder hacer uso de todas la utilidades de está clase como, generarUrls, hacer un forward, crear excepciones etc.
+
+Response.- Es una clase, es la que abstrae las respuestas que emitimos o asociadas a el.
+Route.- Es una anotación, donde en ese ejm vemos que podemos crear la ruta dentro de nuestra clase.
+
+Request.- Nosotros podemos acceder en los controladores al objeto Request de gratis, este nos permite tener toda la información acerca de la request que estamos procesando. Como vemos en el ejm estamos accediendo a los requestParams, a los parametros que enviamos por url. http://localhost/articles?name=juan
+
+
